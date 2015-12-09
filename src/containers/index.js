@@ -22,7 +22,9 @@ export default class App extends Component {
         <TodoList
           todos={todos}
           onTodoClick={index => { console.log('Todo clicked:', index); }} />
-        <Footer />
+        <Footer 
+          filter='SHOW_ALL'
+          onFilterChange={filter => { console.log('Filter change:', filter); }} />
       </div>
     );
   }
