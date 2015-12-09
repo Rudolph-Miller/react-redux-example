@@ -40,7 +40,7 @@ function todos(todos = [], action = {}) {
   }
 }
 
-function todoApp(state = initialState, action = {}) {
+export default function todoApp(state = initialState, action = {}) {
   return {
     visibilityFilter: visibilityFilter(state.visibilityFilter, action),
     todos: todos(state.todos, action)
