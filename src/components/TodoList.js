@@ -7,7 +7,7 @@ export default class TodoList extends Component {
       <Todo
         {...todo}
         key={index}
-        onClick={() => this.props.onTodoClick(index)} />
+        onClick={() => { this.props.onTodoClick(index); }} />
     );
 
     return (
@@ -24,4 +24,4 @@ TodoList.propTypes = {
     text: PropTypes.string.isRequired,
     completed: PropTypes.bool.isRequired
   }).isRequired).isRequired
-}
+};

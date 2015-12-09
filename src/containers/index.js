@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 
 export default class App extends Component {
   render() {
-    let todos = [
+    const todos = [
       {
         text: 'Use Redux',
         completed: true
@@ -17,10 +17,11 @@ export default class App extends Component {
     ];
     return (
       <div>
-        <AddTodo />
+        <AddTodo
+          onAddClick={text => { console.log('Todo added:', text); }} />
         <TodoList
           todos={todos}
-          onTodoClick={index => { console.log('todo clicked', index); }} />
+          onTodoClick={index => { console.log('Todo clicked:', index); }} />
         <Footer />
       </div>
     );
