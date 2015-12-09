@@ -19,7 +19,7 @@ function todos(todos = [], action = {}) {
   switch (action.type) {
     case ADD_TODO: {
       return [
-        ...state.todos,
+        ...todos,
         {
           text: action.text,
           completed: false
@@ -28,15 +28,15 @@ function todos(todos = [], action = {}) {
     }
     case COMPLETE_TODO: {
       return [
-        ...state.todos.slice(0, action.index),
-        Object.assign({}, state.todos[action.index], {
+        ...todos.slice(0, action.index),
+        Object.assign({}, todos[action.index], {
           completed: true
         }),
-        ...state.todos.slice(action.index + 1)
+        ...todos.slice(action.index + 1)
       ];
     }
     default:
-      return state;
+      return todos;
   }
 }
 
