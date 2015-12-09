@@ -1,31 +1,57 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import AddTodo from '../components/AddTodo';
 import TodoList from '../components/TodoList';
 import Footer from '../components/Footer';
+import { VisibilityFilters, addTodo, completeTodo, setVisibilityFilter } from '../actions';
 
 export default class App extends Component {
   render() {
-    const todos = [
-      {
-        text: 'Use Redux',
-        completed: true
-      },
-      {
-        text: 'Learn to connect it to React',
-        completed: false
-      }
-    ];
+    const { dispatch, visibleTodos, visibilityFilter } = this.props;
     return (
       <div>
         <AddTodo
-          onAddClick={text => { console.log('Todo added:', text); }} />
+          onAddClick={text => { dispatch(addTodo(text)); }} />
         <TodoList
-          todos={todos}
-          onTodoClick={index => { console.log('Todo clicked:', index); }} />
+          todos={visibleTodos}
+          onTodoClick={index => { dispatch(completeTodo(index)); }} />
         <Footer 
-          filter='SHOW_ALL'
-          onFilterChange={filter => { console.log('Filter change:', filter); }} />
+          filter={visibilityFilter}
+          onFilterChange={filter => { dispatch(setVisibilityFilter(filter)); }} />
       </div>
     );
   }
 }
+
+const filters = [];
+for ( let key in VisibilityFilters ) {
+  filters.push(VisibilityFilters[key]);
+}
+
+App.propTypes = {
+  visibleTodos: PropTypes.arrayOf(PropTypes.shape({
+    text: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired
+  })),
+  visibilityFilter: PropTypes.oneOf(filters).isRequired
+};
+
+function selectTodos(todos, filter) {
+  switch (filter) {
+    case VisibilityFilters.SHOW_ALL:
+      return todos;
+    case VisibilityFilters.SHOW_COMPLETED:
+      return todos.filter(todo => todo.completed);
+    case VisibilityFilters.SHOW_ACTIVE:
+      return todos.filter(todo => !todo.completed);
+  }
+}
+
+function select(state) {
+  return {
+    visibleTodos: selectTodos(state.todos, state.visibilityFilter),
+    visibilityFilter: state.visibilityFilter
+  };
+}
+
+export default connect(select)(App);
