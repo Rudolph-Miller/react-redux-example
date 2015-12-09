@@ -5,8 +5,12 @@ import Footer from '../components/Footer';
 
 export default class App extends Component {
   render() {
-    <div>
-      Container
-    </div>
+    return (
+      <div>
+        <AddTodo />
+        <TodoList />
+        <Footer />
+      </div>
+    );
   }
 }
